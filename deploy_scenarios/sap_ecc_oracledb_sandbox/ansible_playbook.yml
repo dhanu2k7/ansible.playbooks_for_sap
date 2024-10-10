@@ -116,7 +116,7 @@
 #### Begin downloading SAP software installation media to hosts ####
 
 - name: Ansible Play for preparing downloads of SAP Software installation media
-  hosts: nwas_pas
+  hosts: linux
   become: true
   any_errors_fatal: true # https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#aborting-a-play-on-all-hosts
   max_fail_percentage: 0
@@ -158,46 +158,46 @@
 
 
 
-- name: Ansible Play for downloading installation media
-  hosts: nwas_pas
-  become: true
-  any_errors_fatal: true # https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#aborting-a-play-on-all-hosts
-  max_fail_percentage: 0
-  tasks:
+# - name: Ansible Play for downloading installation media
+#   hosts: nwas_pas
+#   become: true
+#   any_errors_fatal: true # https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#aborting-a-play-on-all-hosts
+#   max_fail_percentage: 0
+#   tasks:
 
-    # Set facts based on the install dictionary and the default template selected
-    - name: Set fact x86_64 softwarecenter_search_list
-      ansible.builtin.set_fact:
-        softwarecenter_search_list: "{{ sap_swpm_templates_install_dictionary[sap_swpm_templates_product_input].softwarecenter_search_list_x86_64 }}"
-      when:
-        - ansible_architecture == "x86_64"
+#     # Set facts based on the install dictionary and the default template selected
+#     - name: Set fact x86_64 softwarecenter_search_list
+#       ansible.builtin.set_fact:
+#         softwarecenter_search_list: "{{ sap_swpm_templates_install_dictionary[sap_swpm_templates_product_input].softwarecenter_search_list_x86_64 }}"
+#       when:
+#         - ansible_architecture == "x86_64"
 
-    # Set facts based on the install dictionary and the default template selected
-    - name: Set fact ppc64le softwarecenter_search_list
-      ansible.builtin.set_fact:
-        softwarecenter_search_list: "{{ sap_swpm_templates_install_dictionary[sap_swpm_templates_product_input].softwarecenter_search_list_ppc64le }}"
-      when:
-        - ansible_architecture == "ppc64le"
+#     # Set facts based on the install dictionary and the default template selected
+#     - name: Set fact ppc64le softwarecenter_search_list
+#       ansible.builtin.set_fact:
+#         softwarecenter_search_list: "{{ sap_swpm_templates_install_dictionary[sap_swpm_templates_product_input].softwarecenter_search_list_ppc64le }}"
+#       when:
+#         - ansible_architecture == "ppc64le"
 
-    - name: Execute Ansible Module with system Python to download installation media for Oracle DB and SAP NetWeaver
-      community.sap_launchpad.software_center_download:
-        suser_id: "{{ sap_id_user }}"
-        suser_password: "{{ sap_id_user_password }}"
-        softwarecenter_search_query: "{{ item }}"
-        dest: "{{ sap_install_media_detect_source_directory }}"
-      loop: "{{ softwarecenter_search_list }}"
-      loop_control:
-        label: "{{ item }} : {{ download_task.msg }}"
-      register: download_task
-      retries: 1
-      until: download_task is not failed
+#     - name: Execute Ansible Module with system Python to download installation media for Oracle DB and SAP NetWeaver
+#       community.sap_launchpad.software_center_download:
+#         suser_id: "{{ sap_id_user }}"
+#         suser_password: "{{ sap_id_user_password }}"
+#         softwarecenter_search_query: "{{ item }}"
+#         dest: "{{ sap_install_media_detect_source_directory }}"
+#       loop: "{{ softwarecenter_search_list }}"
+#       loop_control:
+#         label: "{{ item }} : {{ download_task.msg }}"
+#       register: download_task
+#       retries: 1
+#       until: download_task is not failed
 
 
 
 #### Begin SAP software hosts preparation ####
 
 - name: Ansible Play for preparing all SAP software hosts
-  hosts: nwas_pas
+  hosts: linux
   become: true
   any_errors_fatal: true # https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#aborting-a-play-on-all-hosts
   max_fail_percentage: 0
@@ -216,7 +216,7 @@
 #### Begin SAP software installations ####
 
 - name: Ansible Play for Oracle DB Database Server and SAP NetWeaver Application Server installation - ABAP Central Services (ASCS), Database Load, Primary Application Server (PAS)
-  hosts: nwas_pas
+  hosts: linux
   become: true
   any_errors_fatal: true # https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html#aborting-a-play-on-all-hosts
   max_fail_percentage: 0
