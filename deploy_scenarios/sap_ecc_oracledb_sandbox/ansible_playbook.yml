@@ -88,7 +88,7 @@
     # Use inventory_hostname_short to retrieve host specification from the dictionary. While ansible_hostname will work for Ansible only, using Ansible>Terraform may see ansible_hostname as 'localhost' and fail
     - name: Execute Ansible Role sap_storage_setup
       ansible.builtin.include_role:
-        name: sap_install.sap_storage_setup
+        name: sap_storage_setup
       vars:
         sap_storage_setup_sid: "{{ host_specifications_dictionary[sap_vm_provision_host_specification_plan][inventory_hostname_short].sap_storage_setup_sid | default('') }}"
         sap_storage_setup_nwas_abap_ascs_instance_nr: "{{ host_specifications_dictionary[sap_vm_provision_host_specification_plan][inventory_hostname_short].sap_storage_setup_nwas_abap_ascs_instance_nr | default('') }}"
@@ -205,11 +205,11 @@
 
     - name: Execute Ansible Role sap_general_preconfigure
       ansible.builtin.include_role:
-        name: sap_install.sap_general_preconfigure
+        name: sap_general_preconfigure
 
     - name: Execute Ansible Role sap_netweaver_preconfigure
       ansible.builtin.include_role:
-        name: sap_install.sap_netweaver_preconfigure
+        name: sap_netweaver_preconfigure
 
 
 
@@ -224,7 +224,7 @@
 
     - name: Execute Ansible Role sap_install_media_detect
       ansible.builtin.include_role:
-        name: sap_install.sap_install_media_detect
+        name: sap_install_media_detect
       vars:
         sap_install_media_detect_swpm: true
         sap_install_media_detect_hostagent: true
@@ -237,12 +237,12 @@
 
     - name: Execute Ansible Role sap_anydb_install_oracle
       ansible.builtin.include_role:
-        name: sap_install.sap_anydb_install_oracle
+        name: sap_anydb_install_oracle
 
     # Install Oracle DB and SAP NetWeaver via Ansible Role sap_swpm
     - name: Execute Ansible Role sap_swpm
       ansible.builtin.include_role:
-        name: sap_install.sap_swpm
+        name: sap_swpm
 
 
 
