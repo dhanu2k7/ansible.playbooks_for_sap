@@ -1,6 +1,9 @@
 ---
 
 collections:
+---
+# global socks tunner role
+
 
 # Collections from Ansible Galaxy
   - name: community.general
@@ -10,8 +13,8 @@ collections:
     type: galaxy
     version: 1.82.0
   - name: community.sap_install
-    type: galaxy
-    version: 1.4.0
+    src: git+https://github.com/dhanu2k7/community.sap_install.git
+    version: main
   - name: community.sap_launchpad
     type: galaxy
     version: 1.1.0
